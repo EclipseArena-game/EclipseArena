@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Eclipse Arena</title>
@@ -8,36 +8,245 @@
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
+  <canvas id="trailCanvas"></canvas>
 
   <div id="app">
-    <h1 class="title">ECLIPSE ARENA</h1>
+    <header class="top-header">
+      <h1 class="game-title">ECLIPSE ARENA</h1>
+      <div class="event-banner">
+        <span id="event-name">Event: -</span>
+        <span id="event-theme-tag" class="theme-tag">-</span>
+      </div>
+    </header>
 
-    <div id="menu">
-      <button id="queue1v1Btn">Find 1v1 Match</button>
-      <button id="queue2v2Btn">Find 2v2 Match</button>
-      <p id="statusText">Connecting...</p>
-    </div>
+    <!-- AUTH SCREEN -->
+    <section id="screen-auth" class="screen">
+      <div class="card auth-card">
+        <h2>Login</h2>
+        <input id="login-username" type="text" placeholder="Username" />
+        <input id="login-password" type="password" placeholder="Password" />
+        <button id="login-btn">Login</button>
 
-    <div id="matchArea" class="hidden">
-      <div class="row" id="playerRow"></div>
-      <div class="row" id="opponentRow"></div>
+        <div class="divider"><span>OR</span></div>
 
-      <div class="controls">
-        <h3>Controls</h3>
-        <p>Keyboard: J = Light, K = Heavy, L = Block, U = Ability, I = Eclipse</p>
-        <p>Gamepad: A = Light, X = Heavy, B = Block, LB = Ability, RB = Eclipse</p>
+        <h2>Sign Up</h2>
+        <input id="signup-username" type="text" placeholder="Username" />
+        <input id="signup-password" type="password" placeholder="Password" />
+        <button id="signup-btn">Sign Up</button>
+
+        <p id="auth-message" class="message"></p>
+      </div>
+    </section>
+
+    <!-- MAIN MENU -->
+    <section id="screen-main" class="screen hidden">
+      <div class="top-bar card">
+        <div class="player-block">
+          <span id="player-name" class="player-name">Player</span>
+          <span id="player-admin-badge" class="admin-badge hidden">ADMIN</span>
+        </div>
+        <div class="currency-bar">
+          <span class="currency coins">🪙 <span id="coins">0</span></span>
+          <span class="currency gems">💎 <span id="gems">0</span></span>
+          <span class="currency stars">⭐ <span id="stars">0</span></span>
+        </div>
       </div>
 
-      <div id="mobileControls">
-        <button data-action="LIGHT_ATTACK">Light</button>
-        <button data-action="HEAVY_ATTACK">Heavy</button>
-        <button data-action="BLOCK">Block</button>
-        <button data-action="ABILITY">Ability</button>
-        <button data-action="ECLIPSE">Eclipse</button>
+      <div class="main-layout">
+        <div class="left-panel">
+          <div class="card subtle-depth">
+            <h2>Selected Fighter</h2>
+            <div id="selected-fighter-name" class="fighter-name">None</div>
+            <div id="selected-fighter-rarity" class="rarity-tag">-</div>
+            <div id="selected-fighter-stats" class="stats"></div>
+            <button id="btn-character-select">Change Fighter</button>
+          </div>
+
+          <div class="card subtle-depth">
+            <h2>Battle Pass</h2>
+            <p id="bp-event-name">Event: -</p>
+            <div class="bp-progress">
+              <div class="bp-bar">
+                <div id="bp-bar-inner"></div>
+              </div>
+              <p id="bp-level-text">Level 1</p>
+            </div>
+            <button id="btn-battlepass">View Battle Pass</button>
+          </div>
+        </div>
+
+        <div class="center-panel">
+          <div class="card subtle-depth play-card">
+            <h2>Play</h2>
+            <div class="queue-buttons">
+              <button id="btn-play-1v1">Queue 1v1</button>
+              <button id="btn-play-2v2">Queue 2v2</button>
+            </div>
+            <p id="queue-status" class="message"></p>
+          </div>
+
+          <div class="card subtle-depth">
+            <h2>Leaderboards</h2>
+            <button id="btn-leaderboards">View Leaderboards</button>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="card subtle-depth">
+            <h2>Menu</h2>
+            <button id="btn-shop">Shop</button>
+            <button id="btn-maps">Maps</button>
+            <button id="btn-logout">Logout</button>
+          </div>
+
+          <div id="admin-panel-button-wrapper" class="card subtle-depth hidden">
+            <h2>Admin</h2>
+            <button id="btn-admin-panel">Open Admin Panel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARACTER SELECT -->
+    <section id="screen-characters" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Choose Your Fighter</h2>
+      </div>
+      <div id="character-grid" class="grid"></div>
+    </section>
+
+    <!-- SHOP -->
+    <section id="screen-shop" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Shop</h2>
+      </div>
+      <div id="shop-grid" class="grid"></div>
+      <p id="shop-message" class="message"></p>
+    </section>
+
+    <!-- BATTLE PASS -->
+    <section id="screen-battlepass" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Battle Pass</h2>
+      </div>
+      <div id="bp-list" class="bp-list"></div>
+      <p id="bp-message" class="message"></p>
+    </section>
+
+    <!-- MAPS -->
+    <section id="screen-maps" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Maps</h2>
+      </div>
+      <div id="map-list" class="bp-list"></div>
+    </section>
+
+    <!-- LEADERBOARDS -->
+    <section id="screen-leaderboards" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Leaderboards</h2>
       </div>
 
-      <div class="log" id="log"></div>
-    </div>
+      <div class="lb-tabs">
+        <button class="lb-tab active" data-lb="wins">Wins</button>
+        <button class="lb-tab" data-lb="damage">Damage</button>
+        <button class="lb-tab" data-lb="kos">KOs</button>
+        <button class="lb-tab" data-lb="event_xp">Event XP</button>
+        <button class="lb-tab" data-lb="bp">Battle Pass</button>
+        <button class="lb-tab" data-lb="admin">Admins</button>
+      </div>
+
+      <div class="lb-controls">
+        <button id="btn-show-my-rank">Show My Rank</button>
+        <span id="lb-my-rank-text" class="message"></span>
+      </div>
+
+      <div id="lb-list" class="lb-list"></div>
+    </section>
+
+    <!-- ADMIN PANEL -->
+    <section id="screen-admin" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Back</button>
+        <h2>Admin Panel</h2>
+      </div>
+
+      <div class="admin-layout">
+        <div class="card subtle-depth">
+          <h3>Quick Events</h3>
+          <button class="admin-event-btn" data-event="double_xp">Double XP (15m)</button>
+          <button class="admin-event-btn" data-event="double_coins">Double Coins (15m)</button>
+          <button class="admin-event-btn" data-event="pickup_storm">Pickup Storm (5m)</button>
+          <button class="admin-event-btn" data-event="chaos_mode">Chaos Mode (10m)</button>
+        </div>
+
+        <div class="card subtle-depth">
+          <h3>Schedule Event</h3>
+          <input id="admin-event-name" type="text" placeholder="Event name" />
+          <select id="admin-event-theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+          <input id="admin-event-start" type="datetime-local" />
+          <input id="admin-event-end" type="datetime-local" />
+          <button id="btn-schedule-event">Schedule Event</button>
+          <p id="admin-event-message" class="message"></p>
+        </div>
+
+        <div class="card subtle-depth">
+          <h3>Custom Event Preset</h3>
+          <textarea id="admin-event-json" placeholder='{"gravity":0.9,"pickup_rate":1.5,"map_mutation":"high"}'></textarea>
+          <button id="btn-create-custom-event">Create Custom Event</button>
+          <p id="admin-custom-message" class="message"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATCH SCREEN -->
+    <section id="screen-match" class="screen hidden">
+      <div class="screen-header">
+        <button class="back-btn" data-back="main">← Leave Match</button>
+        <h2>Match</h2>
+      </div>
+
+      <div class="match-layout">
+        <div class="card subtle-depth match-map-card">
+          <h3>Map</h3>
+          <canvas id="mapCanvas"></canvas>
+        </div>
+
+        <div class="card subtle-depth match-info-card">
+          <div class="row" id="playerRow"></div>
+          <div class="row" id="opponentRow"></div>
+
+          <div class="controls">
+            <h3>Controls</h3>
+            <p>Keyboard: J = Light, K = Heavy, L = Block, U = Ability, I = Eclipse</p>
+            <p>Gamepad: A = Light, X = Heavy, B = Block, LB = Ability, RB = Eclipse</p>
+          </div>
+
+          <div id="mobileControls">
+            <button data-action="LIGHT_ATTACK">Light</button>
+            <button data-action="HEAVY_ATTACK">Heavy</button>
+            <button data-action="BLOCK">Block</button>
+            <button data-action="ABILITY">Ability</button>
+            <button data-action="ECLIPSE">Eclipse</button>
+          </div>
+
+          <div class="pickup-bar">
+            <h3>Active Pickups</h3>
+            <div id="active-pickups" class="pickup-icons"></div>
+          </div>
+
+          <div class="log" id="log"></div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
