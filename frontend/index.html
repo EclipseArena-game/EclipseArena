@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Eclipse Arena</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+
+  <div id="app">
+    <h1 class="title">ECLIPSE ARENA</h1>
+
+    <div id="menu">
+      <button id="queue1v1Btn">Find 1v1 Match</button>
+      <button id="queue2v2Btn">Find 2v2 Match</button>
+      <p id="statusText">Connecting...</p>
+    </div>
+
+    <div id="matchArea" class="hidden">
+      <div class="row" id="playerRow"></div>
+      <div class="row" id="opponentRow"></div>
+
+      <div class="controls">
+        <h3>Controls</h3>
+        <p>Keyboard: J = Light, K = Heavy, L = Block, U = Ability, I = Eclipse</p>
+        <p>Gamepad: A = Light, X = Heavy, B = Block, LB = Ability, RB = Eclipse</p>
+      </div>
+
+      <div id="mobileControls">
+        <button data-action="LIGHT_ATTACK">Light</button>
+        <button data-action="HEAVY_ATTACK">Heavy</button>
+        <button data-action="BLOCK">Block</button>
+        <button data-action="ABILITY">Ability</button>
+        <button data-action="ECLIPSE">Eclipse</button>
+      </div>
+
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
