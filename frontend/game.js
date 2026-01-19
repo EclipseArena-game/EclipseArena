@@ -1,5 +1,5 @@
 // CHANGE THIS TO YOUR FLY.IO URL AFTER DEPLOY
-const BACKEND_URL = "https://your-backend.fly.dev";
+const BACKEND_URL = "https://eclipse-backend-9ncq.onrender.com";
 
 const socket = io(BACKEND_URL, { autoConnect: false });
 
